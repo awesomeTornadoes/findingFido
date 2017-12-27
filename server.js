@@ -18,7 +18,6 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 app.get('/', (req, res) => {
   // If the user is logged in
   // Send them their own profile
@@ -33,12 +32,11 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
   // Lili checking front-end send information from LoginComponent
   // {email: bla, password: bla}
-  console.log(`login${req.body}`);
-  res.send(req.body); // check to see I get the data back
-  // Pull email from request, assign it to 'email'
-  // Pull password from request, assign it to 'password'
+  // res.send(req.body); // check to see I get the data back
   db.getUser(email, (err, user) => {
     if (err) {
       console.error(err);
@@ -47,6 +45,7 @@ app.post('/login', (req, res) => {
       // Check passwords. If match
       // Send token
       res.status(201).redirect('/profile');
+      // Otherwise, send that there was an error with the password
     }
   });
 });
@@ -60,47 +59,46 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/signup1.html'));
 });
 
-// app.post('/signup', (req, res) => {
-app.post('/personSignup', (req, res) => {
-  console.log(`person${req.body}`);
-  res.send(req.body);
-  // { name: "amelie", address1: "2823 Ursulines Ave", city: "NEW ORLEANS", state: "LA", zip: "70119", extra: I am a girl }
+app.post('/signup', (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  const address = req.body.address;
+  const extra = req.body.extra;
   db.createUser(name, email, password, address, extra, (err, response) => {
     if (err) {
       console.error(err);
       res.status(500).send('Sorry, something went wrong');
     } else {
       // If they have a pet
-      res.status(201).redirect('/signup2');
+      res.status(201).redirect('/petSignup');
       // If they don't have a pet, redirect to signup 3
     }
   });
 });
 
-app.get('/signup2', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/signup2.html'));
+app.get('/petSignup', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/petSignup.html'));
 });
 
-// app.post('/signup2', (req, res) => {
 app.post('/petSignup', (req, res) => {
-  console.log(`pet${req.body}`);
-  // { kind: "Dog", petName: "Doggy", place: "Central Park", petInfo: "super fun" }
-  res.send(req.body);
-  // Pull info from req
+  const name = req.body.name;
+  const kind = req.body.kind;
+  const characteristics = req.body.characteristics;
   db.createPet(name, kind, characteristics, userId, (err, pet) => {
     if (err) {
       res.status(500).send('Sorry, there was an issue');
     } else {
-      res.status(201).redirect('/signup3');
+      res.status(201).redirect('/personSignup');
     }
   });
 });
 
-app.get('/signup3', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/signup3.html'));
+app.get('/personSignup', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/personSignup.html'));
 });
 
-app.post('/signup3', (req, res) => {
+app.post('/personSignup', (req, res) => {
   // Update user with full information
   // Store information in the database
   // Send auth token
@@ -141,9 +139,14 @@ app.get('/review', (req, res) => {
 });
 
 app.post('/review', (req, res) => {
-  // Add review to database
-  // Send a thank you page
-  // Send them to the homepage
+  db.createReview(user, body, (err, user) => {
+    if (err) {
+      console.error(err);
+      res.status(404).send(err);
+    } else {
+      res.status(201).redirect('/profile');
+    }
+  });
 });
 
 app.get('/search', (req, res) => {
@@ -153,7 +156,7 @@ app.get('/search', (req, res) => {
 
 app.get('/signout', (req, res) => {
   // Destory token
-  // Redirect to login page
+  res.redirect('/login');
 });
 
 app.get('/*', (req, res) => {

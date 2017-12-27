@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('finding_fido', 'PrestonWinstead', null, {
+const sequelize = new Sequelize('finding_fido', 'PrestonWinstead', 'password', {
   host: 'localhost',
   dialect: 'postgres',
 
@@ -152,6 +152,31 @@ module.exports.addPhoto = (url, userId) => {
   });
 };
 
+const Review = sequelize.define('review', {
+  body: {
+    type: Sequelize.STRING,
+  },
+  id_User: {
+    type: Sequelize.INTEGER,
+  },
+});
+
+module.exports.createReview = (user, body, cb) => {
+  Review.sync({ force: true }).then(() => {
+    return Review.create({
+      body: body,
+      id_User: user,
+    })
+      .then((review) => {
+        cb(null, review);
+      })
+      .catch((err) => {
+        cb(err);
+      });
+  });
+};
+
+// Used for testing purposes only, will be deleted in production
 module.exports.getUser = (email, cb) => {
   User.findOne({ email: email })
     .then(user => cb(null, user))

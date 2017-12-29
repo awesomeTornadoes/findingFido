@@ -66,12 +66,8 @@ module.exports.finishUser = (userId, name, address, extra, cb) => {
         address,
         extra,
       })
-        .then((result) => {
-          cb(result);
-        })
-        .catch((err) => {
-          cb(err);
-        });
+        .then(result => cb(null, result))
+        .catch(err => cb(err));
     });
 };
 
@@ -81,13 +77,27 @@ module.exports.getUser = (email, cb) => {
     .catch(err => cb(err));
 };
 
+module.exports.updateUser = (userId, updateKey, updateValue, cb) => {
+  User.findOne({ id: userId })
+    .then((user) => {
+      user.updateAttributes({
+        updateKey: updateValue,
+      })
+        .then(updated => cb(null, updated))
+        .catch(err => cb(err));
+    });
+};
+
+module.exports.deleteUser = (userId, cb) => {
+  User.findOne({ id: userId })
+    .then(user => user.destroy())
+    .then(() => cb(null, 'Success'))
+    .catch(err => cb(err));
+};
+
 // Only used in the development environment
 module.exports.getUsers = (cb) => {
   User.findAll()
-    .then((users) => {
-      cb(null, users);
-    })
-    .catch((err) => {
-      cb(err);
-    });
+    .then(users => cb(null, users))
+    .catch(err => cb(err));
 };

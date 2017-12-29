@@ -19,10 +19,12 @@ const Photo = sequelize.define('photo', {
   },
 });
 
-module.exports.addPhoto = (url, userId) => {
+module.exports.addPhoto = (url, userId, cb) => {
   Photo.sync({ force: true }).then(() =>
     Photo.create({
       url,
       id_User: userId,
-    }));
+    })
+      .then(result => cb(null, result))
+      .catch(err => cb(err)));
 };

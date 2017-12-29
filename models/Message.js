@@ -29,10 +29,6 @@ module.exports.createMessage = (body, userId, cb) => {
       id_User: userId,
       createdAt: new Date(),
     })
-      .then((result) => {
-        cb(result);
-      })
-      .catch((err) => {
-        cb(err);
-      }));
+      .then(result => cb(null, result))
+      .catch(err => cb(err)));
 };

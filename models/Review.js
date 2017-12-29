@@ -25,10 +25,6 @@ module.exports.createReview = (user, body, cb) => {
       body,
       id_User: user,
     })
-      .then((review) => {
-        cb(null, review);
-      })
-      .catch((err) => {
-        cb(err);
-      }));
+      .then(review => cb(null, review))
+      .catch(err => cb(err)));
 };

@@ -1,0 +1,85 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">FindingFido</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" (click)="authService.logout()">Log Out</button>
+    </form>
+  </div>
+</nav>
+<div class="row">
+  <div class="col-sm-4">
+    <div class="row">
+      <img src="http://thepetwiki.com/wp-content/uploads/300px-Dalmation.jpg" alt="profile-person" style="width:100px;height:100px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Patriotic_Pampered_Pocket_Pooch_Posing_Proudly.jpg/300px-Patriotic_Pampered_Pocket_Pooch_Posing_Proudly.jpg"
+        alt="profile-pet" style="width:100px;height:100px;">
+    </div>
+    <p></p>
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlFile1">Upload Pictures</label>
+        <span class="glyphicon glyphicon-folder-open"></span>
+        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+
+      </div>
+    </form>
+  </div>
+  <div class="col-sm-8">
+    <h3>Here are your upcoming activities!</h3>
+    <div class="row">
+      <div>
+        <button type="button" class="btn btn-outline-primary btn-lg" (click)="onSelectFriend()">Find a new friend to play with</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-outline-success btn-lg" (click)="onSelectPet()">Find someone to play with your pet</button>
+        <div class="col-md-8" *ngIf="pet">
+          <form>
+            <div class="form-group">
+              <label for="pet-kind">When do you want someone to play with your pet?</label>
+              <select class="form-control" id="schedule" [(ngModel)]="schedule" name="schedule">
+                <option>8.30am - 9.30am</option>
+                <option>9.30am - 10.30am</option>
+                <option>10.30am - 11.30am</option>
+                <option>11.30am - 12.30am</option>
+                <option>1pm - 2pm</option>
+                <option>2pm - 3pm</option>
+                <option>3pm - 4pm</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="extra">Give us a pickup place</label>
+              <textarea class="form-control" id="extra" rows="3" [(ngModel)]="pickup" name="pickup"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="onSelect()">Submit!</button>
+          </form>
+          <p *ngIf="personNeeded">We will come back to you shortly with a match!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

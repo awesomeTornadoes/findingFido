@@ -18,6 +18,12 @@ const Review = require('./models/Review');
 
 const app = express();
 
+const jwt = require('express-jwt');
+
+const jwks = require('jwks-rsa');
+
+const cors = require('cors');
+
 // Check for environment variables, set port accordingly
 const port = process.env.NODE_ENV === 'development' ? 9000 : 80;
 
@@ -25,13 +31,32 @@ const port = process.env.NODE_ENV === 'development' ? 9000 : 80;
 app.use(express.static(`${__dirname}/dist`));
 
 // Need this to serve the logo picture
-app.use(express.static(`${__dirname}/client/assets`));
+app.use(express.static(`${__dirname}/src/assets`));
 
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(cors());
 
+const authCheck  = jwt({
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: 'https://findo.auth0.com/.well-known/jwks.json',
+  }),
+  audience: 'http://localhost:9000',
+  issuer: 'https://findo.auth0.com/',
+  algorithms: ['RS256'],
+});
+
+app.post('/login', authCheck, (req, res) => {
+
+  res.send(req.body); // check to see I get the data back
+  // Pull email from request, assign it to 'email'
+  // Pull password from request, assign it to 'password'
+  db.getUser(email, (err, user) => {
 /*******************************************************
  Delete in production environment
  *********************************************************/
@@ -66,6 +91,10 @@ app.post('/login', (req, res) => {
   });
 });
 
+app.post('/personSignup', authCheck, (req, res) => {
+  res.send(req.body);
+  db.createUser(name, email, password, address, extra, (err, response) => {
+
 // Takes in email and password and makes a user with only those two columns filled out
 app.post('/signup', (req, res) => {
   // I think this is the proper way to do destructing. We'll find out if not
@@ -80,6 +109,17 @@ app.post('/signup', (req, res) => {
   });
 });
 
+app.post('/schedule', authCheck, (req, res) => {
+  res.send(req.body);
+});
+
+
+app.post('/petSignup', authCheck, (req, res) => {
+  // { kind: "Dog", petName: "Doggy", place: "Central Park", petInfo: "super fun" }
+  res.send(req.body);
+  // Pull info from req
+  db.createPet(name, kind, characteristics, userId, (err, pet) => {
+    
 app.post('/schedule', (req, res) => {
   res.send(req.body);
 });
@@ -100,6 +140,13 @@ app.post('/petSignup', (req, res) => {
     }
   });
 });
+    
+app.get('/profile', (req, res) => {
+  // Requires auth
+  // If the requested profile is that user's profile
+  // res.sendFile(path.join(__dirname, '/src/components/app/person-signup/person-signup.component.html'));
+  // Otherwise
+  // Send them the external profile page
 
 // Fills out the rest of the columns on a new user
 app.post('/personSignup', (req, res) => {
@@ -126,6 +173,7 @@ app.put('/profile', (req, res) => {
 // Deletes a profile
 app.delete('/profile', (req, res) => {
   // Delete the user's profile
+  
   res.status(202).send('Successfully deleted');
 });
 
@@ -139,6 +187,15 @@ app.post('/chat', (req, res) => {
   // Send message to both users, using socket.io
 });
 
+app.post('/review', (req, res) => {
+  // Add review to database
+  // Send a thank you page
+  // Send them to the homepage
+});
+
+app.get('/search', (req, res) => {
+  // Should be able to handle searches src side without a post handler
+  res.sendFile(path.join(__dirname, '/src/search.html'));
 // Saves reviews to the database
 app.post('/review', (req, res) => {
   const { user, body } = req.body;
@@ -196,7 +253,7 @@ app.get('/signout', (req, res) => {
 
 // Wildcard, redirects to the profile page
 app.get('/*', (req, res) => {
-  res.redirect('/profile');
+  res.redirect('/chat');
 });
 
 // Open our connection

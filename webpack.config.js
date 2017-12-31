@@ -36,6 +36,9 @@ module.exports = {
       path: path.join(__dirname, '/dist/'),
     }),
     new webpack.HotModuleReplacementPlugin(), // Enable HMR
-
+    new webpack.ContextReplacementPlugin(
+      /angular(\\|\/)core(\\|\/)@angular/,
+      path.resolve(__dirname, '../src'),
+    ),
   ],
 };

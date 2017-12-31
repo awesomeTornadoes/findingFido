@@ -229,9 +229,7 @@ app.get('/todo/:id', (req, res) => {
 });
 // Sends information to fill out the individual dashboard person dashboard and pet dashboard
 app.get('/dashboard/:email', (req, res) => {
-  // Also get activities for that user
   const userEmail = req.params.email;
-  // const userEmail = req.body.profile.email;
   // Gets user information based on email
   User.getUser(userEmail, (err, userInfo) => {
     if (err) console.error(err);
@@ -301,6 +299,7 @@ app.get('/petDashboard/:id', (req, res) => {
 
 // Recieves a file upload, adds it to cloudinary, then adds to the database
 app.post('/photos*', (req, res) => {
+  // The format of the incoming file is a bit weird, has to be encoded to base64
   const newPhoto = req.files['uploads[]'].data.toString('base64');
   const type = req.files['uploads[]'].mimetype;
   const userEmail = req.params[0];
@@ -309,10 +308,12 @@ app.post('/photos*', (req, res) => {
     if (err) {
       res.status(400).send(err);
     } else {
+      // The url in Cloudinary's response is put into the database for use
       Photo.addPhoto(photo.url, userEmail, (error, response) => {
         if (error) {
           res.status(500).send(error);
         } else {
+          // The new photo entry is sent back to the client to be rendered
           res.status(201).send(response);
         }
       });

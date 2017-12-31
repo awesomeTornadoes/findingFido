@@ -67,6 +67,8 @@
         </div>
     </div>
   </div>
-  <iframe width="500" height="500" frameborder="0" style="border:0" src={{buildGoogleSrc()}} allowfullscreen>
-  </iframe>
+  <div *ngIf="map" id="map">
+    <iframe width="500" height="500" frameborder="0" style="border:0" [src]="sanitize(map)" allowfullscreen>
+    </iframe>
+  </div>
 </div>

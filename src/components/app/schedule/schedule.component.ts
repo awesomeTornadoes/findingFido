@@ -3,7 +3,7 @@ import { AuthService } from './../auth/auth.service';
 import { PageService } from '../services/page.service';
 import { Router } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
-
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   templateUrl: 'schedule.component.html',
@@ -16,12 +16,12 @@ export class ScheduleComponent {
   userProfile: any;
   petProfile: any;
   activity: any;
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  map: any;
 
   constructor(
     private router: Router,
-    private pageService: PageService
+    private pageService: PageService,
+    private sanitizer: DomSanitizer
   ) { }
 
   onSelect(): void {
@@ -45,16 +45,10 @@ export class ScheduleComponent {
       })
   }
   onHover(activity): void {
-    this.pageService.postMap(activity)
-      .then(gps => {
-        this.lat = gps.lat;
-        this.lng = gps.lng;
-      });
+    console.log(activity.location);
+    this.map = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBfz7Y7C-7emBWPSEi925MBpeXLRcL-Jzw&q=${activity.location},New+Orleans,LA`
   }
-  buildGoogleSrc(): string {
-    return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBfz7Y7C-7emBWPSEi925MBpeXLRcL-Jzw&${this.lat},${this.lng}` 
+  sanitize(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }
-
-"https://www.google.com/maps/embed/v1/place?key=AIzaSyBfz7Y7C-7emBWPSEi925MBpeXLRcL-Jzw&q=Bean+Gallery,NewOrleans+LA" 
-

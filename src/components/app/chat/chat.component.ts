@@ -43,9 +43,9 @@ export class ChatComponent {
     // })
   }
   
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.connection.unsubscribe();
+  // }
 
   sendMessage(message, room): void {
     room = room;

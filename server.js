@@ -136,14 +136,25 @@ app.delete('/profile', (req, res) => {
 // Saves chat messages to the database
 app.post('/chat', (req, res) => {
   const userEmail = req.body.profile.email;
-  const { text } = req.body;
+  const { text, room } = req.body;
   // Store message in databse
-  Message.createMessage(text, userEmail, (err, result) => {
+  Message.createMessage(text, room, userEmail, (err, result) => {
     // Send message to both users, using socket.io
     if (err) {
       res.status(500).send(err);
     } else {
       res.send(result);
+    }
+  });
+});
+
+app.get('/chat/:email/:room', (req, res) => {
+  const { email, room } = req.params;
+  Message.findUserMessages(email, room, (err, messages) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(messages);
     }
   });
 });

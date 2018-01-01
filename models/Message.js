@@ -11,7 +11,10 @@ const sequelize = new Sequelize('postgres://bvjcwjye:YkiJ4pvf6lTtuJDyp8v23KqGQoe
 });
 
 const Message = sequelize.define('message', {
-  body: {
+  text: {
+    type: Sequelize.STRING,
+  },
+  room: {
     type: Sequelize.STRING,
   },
   createdAt: {
@@ -22,13 +25,20 @@ const Message = sequelize.define('message', {
   },
 });
 
-module.exports.createMessage = (body, userEmail, cb) => {
+module.exports.createMessage = (text, room, userEmail, cb) => {
   Message.sync().then(() =>
     Message.create({
-      body,
+      text,
+      room,
       email_user: userEmail,
       createdAt: new Date(),
     })
       .then(result => cb(null, result))
       .catch(err => cb(err)));
+};
+
+module.exports.findUserMessages = (userEmail, room, cb) => {
+  Message.findAll({ where: { email_user: userEmail, room } })
+    .then(messages => cb(null, messages))
+    .catch(err => cb(err));
 };

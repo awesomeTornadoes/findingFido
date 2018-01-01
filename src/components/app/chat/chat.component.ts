@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './../auth/auth.service';
+import { ChatService } from './../services/chat.service';
 import { Router } from '@angular/router';
 
 
@@ -8,16 +9,74 @@ import { Router } from '@angular/router';
   //styleUrls: ['chat.component.css']
 })
 export class ChatComponent { 
+  connection;
+  profile: any;
+  room: string;
+  message: string;
+  messages: any = [
+    { text: 'Hello my name is Anna' },
+    { text: 'Hello world' },
+    { text: 'Hello you' },
+    { text: 'Hello there' }
+  ]
+
   constructor(
     private router: Router,
     public authService: AuthService,
-  ) { }
+    private chatService: ChatService
+  ) {}
+
+  ngOnInit() {
+    if (this.authService.userProfile) {
+      this.profile = this.authService.userProfile;
+    } else {
+      this.authService.getProfile((err, profile) => {
+        this.profile = profile;
+      });
+    }
+
+    this.connection = this.chatService.getMessages(this.profile.email, this.room).subscribe(message => {
+      this.messages.push(message);
+    })
+  }
+  
+  ngOnDestroy() {
+    this.connection.unsubscribe();
+  }
+
+  sendMessage(message, room): void {
+    room = room;
+    const chatMessage = {
+      profile: this.profile,
+      text: message,
+      room: room
+    }
+    console.log(chatMessage);
+    this.chatService.postMessage(chatMessage)
+      .then(chat => console.log(chat))
+    this.message = '';
+  }  
+
+  getMessages(): void {
+    this.chatService.getMessages(this.profile.email, this.room)
+      .then(chat => {
+        this.messages = chat;
+        console.log(chat)
+      })
+  }  
+
+  // Poll for new messages
+//   setInterval(function() {
+//     app.fetch(true);
+//   }, 3000);
+// },
+
+
+
+
+
 }
 
 
 
 
-// Every Angular application requires at least one component called a root component.
-// All other components will reside in this primary root component.
-// An application may only have one root component.
-//app.component.ts is the standard file name for root components.

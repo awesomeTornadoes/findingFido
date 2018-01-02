@@ -34,7 +34,7 @@ export class ChatComponent {
         this.profile = profile;
       });
     }
-    
+    // Polling with no socket.io
     setTimeout(() => {
       this.getMessages();
     }, 2000);

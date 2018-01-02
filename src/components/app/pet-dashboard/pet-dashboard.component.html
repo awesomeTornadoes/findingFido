@@ -37,7 +37,7 @@
 <div class="row" id='petDashboard'>
   <div class="col-sm-4">
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" *ngIf='photos'>
-      <div class="carousel-inner" role="listbox" >
+      <div class="carousel-inner" role="listbox" *ngIf='photos[0]'>
         <div class="carousel-item active">
           <img class="d-block img-fluid" src={{photos[0].url}} alt="First slide">
         </div>

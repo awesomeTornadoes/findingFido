@@ -38,15 +38,8 @@ export class ChatComponent {
     setTimeout(() => {
       this.getMessages();
     }, 2000);
-    // this.connection = this.chatService.getMessages(this.profile.email, this.room).subscribe(message => {
-    //   this.messages.push(message);
-    // })
   }
   
-  // ngOnDestroy() {
-  //   this.connection.unsubscribe();
-  // }
-
   sendMessage(message, room): void {
     room = room;
     const chatMessage = {

@@ -82,6 +82,7 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
   });
   socket.on('save-message', (data) => {
+    console.log('hello')
     console.log(data);
     io.emit('new-message', { message: data });
   });

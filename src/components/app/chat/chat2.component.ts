@@ -14,12 +14,7 @@ export class ChatComponent {
   profile: any;
   room: string = 'Room1';
   message: string;
-  messages: any = [
-    { text: 'Hello my name is Anna' },
-    { text: 'Hello world' },
-    { text: 'Hello you' },
-    { text: 'Hello there' }
-  ]
+  messages: any = []
 
   constructor(
     private router: Router,
@@ -58,14 +53,6 @@ export class ChatComponent {
     .catch(err=>console.log(err))
     this.message = '';
   }
-
-  // getMessages(): void {
-  //   this.chatService.getMessages(this.profile.email, this.room)
-  //     .then(chat => {
-  //       this.messages = chat;
-  //       console.log(chat)
-  //     })
-  // }
 
 }
 

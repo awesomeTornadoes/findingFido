@@ -19,7 +19,7 @@ module.exports = {
     loaders: [
       { test: /.ts$/, use: ['awesome-typescript-loader', 'angular2-template-loader'] },
       { test: /.html$/, use: 'raw-loader' },
-      { test: /\.css$/, use: ['style-loader', 'to-string-loader', 'css-loader' ] },
+      { test: /\.css$/, use: ['style-loader', 'to-string-loader', 'css-loader'] },
     ],
   },
   devServer: {
@@ -36,9 +36,6 @@ module.exports = {
       path: path.join(__dirname, '/dist/'),
     }),
     new webpack.HotModuleReplacementPlugin(), // Enable HMR
-    new webpack.ContextReplacementPlugin(
-      /angular(\\|\/)core(\\|\/)@angular/,
-      path.resolve(__dirname, '../src'),
-    ),
+
   ],
 };

@@ -10,14 +10,26 @@ const sequelize = new Sequelize('postgres://bvjcwjye:YkiJ4pvf6lTtuJDyp8v23KqGQoe
   },
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  });
+// const sequelize = new Sequelize('findingFido', 'bvjcwjye', 'YkiJ4pvf6lTtuJDyp8v23KqGQoeuasvL', {
+//   dialect: 'postgres',
+//   pool: {
+//     max: 5,
+//     min: 0,
+//     acquire: 30000,
+//     idle: 1000,
+//   },
+//   operatorsAliases: false,
+// });
+
+// Can be used to make sure your connection is open, but unnecessary in production
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log('Connection has been established successfully.');
+//   })
+//   .catch((err) => {
+//     console.error('Unable to connect to the database:', err);
+//   });
 
 const User = sequelize.define('user', {
   name: {
@@ -82,12 +94,5 @@ module.exports.deleteUser = (userEmail, cb) => {
   User.findOne({ where: { email: userEmail } })
     .then(user => user.destroy())
     .then(() => cb(null, 'Success'))
-    .catch(err => cb(err));
-};
-
-// Only used in the development environment
-module.exports.getUsers = (cb) => {
-  User.findAll()
-    .then(users => cb(null, users))
     .catch(err => cb(err));
 };

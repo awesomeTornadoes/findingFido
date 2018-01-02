@@ -104,7 +104,9 @@ body {
   font-size: medium 
 }
 #schedule-box {
-  width: 600px;
+  background-color: rgb(190, 153, 201);
+  width: 35em;
+  height: 10em;
   border: 5px solid rgb(226, 229, 233);
   padding: 25px;
   margin: 25px;

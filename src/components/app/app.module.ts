@@ -10,6 +10,7 @@ import { AuthHttp, AuthConfig, AUTH_PROVIDERS, provideAuth } from 'angular2-jwt'
 import { AppComponent } from './app.component';
 import { EmailService } from './services/email.service';
 import { AuthService } from './auth/auth.service';
+import { ChatService } from './services/chat.service';
 import { PageService } from './services/page.service';
 import { LoginComponent } from './login/login.component';
 import { PersonComponent } from './person-signup/person-signup.component';
@@ -53,7 +54,7 @@ import { CallbackComponent } from './callback.component';
     })
   ],
   providers: [
-    AuthService, PageService, EmailService,
+    AuthService, PageService, EmailService, ChatService,
     AuthHttp,
     provideAuth({
       headerName: 'Authorization',

@@ -36,6 +36,11 @@ const cloud = require('./config/cloudinary.api');
 
 const app = express();
 
+const http = require('http').Server(app);
+
+const io = require('socket.io')(http);
+
+
 // Check for environment variables, set port accordingly
 const port = process.env.NODE_ENV === 'development' ? 9000 : 80;
 
@@ -70,8 +75,19 @@ const authCheck = jwt({
   issuer: 'https://findo.auth0.com/',
   algorithms: ['RS256'],
 });
-
-
+// /////////////////////////////////////////////////////////////////////////
+// socket io
+io.on('connection', (socket) => {
+  console.log('User connected');
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+  socket.on('save-message', (data) => {
+    console.log(data);
+    io.emit('new-message', { message: data });
+  });
+});
+// //////////////////////////////////////////////////////////////////////
 // Takes in information about the pet, puts it in a pet table with a link to the user
 app.post('/petSignup', (req, res) => {
   const userEmail = req.body.profile.email;
@@ -138,14 +154,25 @@ app.delete('/profile', (req, res) => {
 // Saves chat messages to the database
 app.post('/chat', (req, res) => {
   const userEmail = req.body.profile.email;
-  const { text } = req.body;
+  const { text, room } = req.body;
   // Store message in databse
-  Message.createMessage(text, userEmail, (err, result) => {
+  Message.createMessage(text, room, userEmail, (err, result) => {
     // Send message to both users, using socket.io
     if (err) {
       res.status(500).send(err);
     } else {
       res.send(result);
+    }
+  });
+});
+
+app.get('/chat/:email/:room', (req, res) => {
+  const { email, room } = req.params;
+  Message.findUserMessages(email, room, (err, messages) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(messages);
     }
   });
 });
@@ -346,6 +373,6 @@ app.post('/map', (req, res) => {
 });
 
 // Open our connection
-app.listen(port, () => {
+http.listen(port, () => {
   console.log(`App is listening on ${port}`);
 });

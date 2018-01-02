@@ -27,7 +27,6 @@ const appRoutes: Routes = [
   { path: 'pet-signup', component: PetComponent, canActivate: [AuthGuard] },
   { path: 'schedule', component: ScheduleComponent, canActivate: [AuthGuard] },
   { path: 'pet-dashboard/:id', component: PetDashboardComponent, canActivate: [AuthGuard] },
-  // { path: 'pet-dashboard', component: PetDashboardComponent, canActivate: [AuthGuard] },
   { path: 'review', component: ReviewComponent, canActivate: [AuthGuard] },
   { path: 'pet-boolean', component: PetBooleanComponent, canActivate: [AuthGuard] },
   { path: 'person-boolean', component: PersonBooleanComponent, canActivate: [AuthGuard] },

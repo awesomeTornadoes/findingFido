@@ -19,10 +19,11 @@ module.exports = {
     loaders: [
       { test: /.ts$/, use: ['awesome-typescript-loader', 'angular2-template-loader'] },
       { test: /.html$/, use: 'raw-loader' },
-      { test: /\.css$/, use: ['style-loader', 'to-string-loader', 'css-loader' ] },
+      { test: /\.css$/, use: ['style-loader', 'to-string-loader', 'css-loader'] },
     ],
   },
   devServer: {
+    // port: 8080,
     historyApiFallback: true,
     hot: true, // Tell the dev-server we're using HMR
     contentBase: path.resolve(__dirname, 'dist'),

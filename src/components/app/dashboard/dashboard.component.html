@@ -44,14 +44,14 @@
     <div *ngIf='photos'>
       <h3>Your Pet's Pictures</h3>
           <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" *ngIf='photos'>
-            <div class="carousel-inner" role="listbox">
+            <div class="carousel-inner" role="listbox" *ngIf='photos[0]'>
               <div class="carousel-item active">
                 <img class="d-block img-fluid" src={{photos[0].url}} alt="First slide">
               </div>
-              <div class="carousel-item">
+              <div class="carousel-item" *ngIf='photos[1]'>
                 <img class="d-block img-fluid" src={{photos[1].url}} alt="Second slide">
               </div>
-              <div class="carousel-item">
+              <div class="carousel-item" *ngIf='photos[2]'>
                 <img class="d-block img-fluid" src={{photos[2].url}} (error)="this.src='assets/logo.png'" alt="Third slide">
               </div>
             </div>

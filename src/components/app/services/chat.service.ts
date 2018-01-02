@@ -17,7 +17,7 @@ export class ChatService {
 
 
   postMessage(message: any): Promise<any> {
-    return this.authHttp
+    return this.http
       .post(this.chatUrl, JSON.stringify(message), { headers: this.headers })
       .toPromise()
       .then(res => res.json())
@@ -25,7 +25,7 @@ export class ChatService {
   }
 
   getMessages(email: any, room: any): Promise<any> {
-    return this.authHttp
+    return this.http
       .get(`${this.chatUrl}/${email}/${room}`, { headers: this.headers })
       .toPromise()
       .then(res => res.json())

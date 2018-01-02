@@ -38,17 +38,7 @@ const http = require('http').Server(app);
 
 const io = require('socket.io')(http);
 
-// socket io
-// io.on('connection', (socket) => {
-//   console.log('User connected');
-//   socket.on('disconnect', () => {
-//     console.log('User disconnected');
-//   });
-//   socket.on('save-message', (data) => {
-//     console.log(data);
-//     io.emit('new-message', { message: data });
-//   });
-// });
+
 
 // Check for environment variables, set port accordingly
 const port = process.env.NODE_ENV === 'development' ? 9000 : 80;
@@ -84,8 +74,19 @@ const authCheck = jwt({
   issuer: 'https://findo.auth0.com/',
   algorithms: ['RS256'],
 });
-
-
+///////////////////////////////////////////////////////////////////////////
+// socket io
+io.on('connection', (socket) => {
+  console.log('User connected');
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+  socket.on('save-message', (data) => {
+    console.log(data);
+    io.emit('new-message', { message: data });
+  });
+});
+////////////////////////////////////////////////////////////////////////
 // Takes in information about the pet, puts it in a pet table with a link to the user
 app.post('/petSignup', (req, res) => {
   const userEmail = req.body.profile.email;
@@ -372,6 +373,6 @@ app.post('/map', (req, res) => {
 });
 
 // Open our connection
-app.listen(port, () => {
+http.listen(port, () => {
   console.log(`App is listening on ${port}`);
 });

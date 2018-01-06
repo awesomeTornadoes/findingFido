@@ -1,47 +1,37 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from './../auth/auth.service';
 import { ChatService } from './../services/chat.service';
-import { Router } from '@angular/router';
+// Import Socket.io
 import * as io from "socket.io-client";
 
 
 @Component({
   templateUrl: 'chat.component.html',
-  //styleUrls: ['chat.component.css']
 })
+  
 export class ChatComponent {
-  socket = io('http://localhost:9000');
-  profile: any;
+  // the url is the one of our back end road
+  socket = io('http://localhost:8080');
   room: string = 'Room1';
   message: string;
   messages: any = []
 
   constructor(
-    private router: Router,
-    public authService: AuthService,
     private chatService: ChatService
   ) { }
 
   ngOnInit() {
-    if (this.authService.userProfile) {
-      this.profile = this.authService.userProfile;
-    } else {
-      this.authService.getProfile((err, profile) => {
-        this.profile = profile;
-      });
-    }
-
+    // we are listening for new messages and pushing those messages into our messages variable
     this.socket.on('new-message', function (data) {
-      console.log(data);
       this.messages.push(data.message);
     }.bind(this));
 
   }
 
+  // On Sending messages we post it to our database, and emit a "save-message" event 
+  // We are listening to those new messages above
   sendMessage(message, room): void {
     room = room;
     const chatMessage = {
-      profile: this.profile,
       text: message,
       room: room
     }

@@ -41,6 +41,6 @@ npm install
 ```
 
 ## Tech Stack
-![VIEW](TechStack.PNG)
+![VIEW](FindingFido.PNG)
 
 

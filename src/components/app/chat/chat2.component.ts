@@ -14,7 +14,8 @@ export class ChatComponent {
   profile: any;
   room: string = 'Room1';
   message: string;
-  messages: any = []
+  messages: any = [];
+  notification: string;
 
   constructor(
     private router: Router,
@@ -32,9 +33,15 @@ export class ChatComponent {
     }
 
     this.socket.on('new-message', function (data) {
+      this.notification = "new chat open";
+      alert(`${this.profile.email}`);
       console.log(data);
       this.messages.push(data.message);
     }.bind(this));
+
+    this.message.addEventListener('keypress', () => {
+      socket.emit('typing', this.name);
+    });
 
   }
 

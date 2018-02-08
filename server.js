@@ -30,7 +30,9 @@ const ToDoList = require('./models/ToDoList');
 
 const Review = require('./models/Review');
 
-const key = require('./config/googlemaps.api');
+const google = require('./config/googlemaps.api');
+
+const cloud = require('./config/cloudinary.api');
 
 const app = express();
 
@@ -58,8 +60,8 @@ app.use(cors());
 
 cloudinary.config({
   cloud_name: 'derywsrky',
-  api_key: '565997469431136',
-  api_secret: 'yt5Ju4qeEEev7mzNrryVIGNHb9c',
+  api_key: cloud.token,
+  api_secret: cloud.secret,
 });
 
 const authCheck = jwt({
@@ -82,7 +84,6 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
   });
   socket.on('save-message', (data) => {
-    console.log('hello');
     console.log(data);
     io.emit('new-message', { message: data });
   });
@@ -210,7 +211,6 @@ app.get('/activities/:date', (req, res) => {
 
 // Adds an activity to the database
 app.post('/activities', (req, res) => {
-  // Update this one a lot
   const userEmail = req.body.profile.email;
   const {
     location,
@@ -226,7 +226,7 @@ app.post('/activities', (req, res) => {
   });
 });
 
-// Adds a to do  to the database
+// Adds a to do to the database
 app.post('/todo', (req, res) => {
   console.log(req.body);
   // Update this one a lot
@@ -256,11 +256,10 @@ app.get('/todo/:id', (req, res) => {
     }
   });
 });
+
 // Sends information to fill out the individual dashboard person dashboard and pet dashboard
 app.get('/dashboard/:email', (req, res) => {
-  // Also get activities for that user
   const userEmail = req.params.email;
-  // const userEmail = req.body.profile.email;
   // Gets user information based on email
   User.getUser(userEmail, (err, userInfo) => {
     if (err) console.error(err);
@@ -307,7 +306,6 @@ app.get('/userProfile/:email', (req, res) => {
       // Gets photos for that user
       Photo.findUserPhotos(userEmail, (er, photos) => {
         if (er) console.error(er);
-
         // Puts them in object and sends to user
         const result = { userInfo, petInfo, photos };
         res.status(200).send(result);
@@ -330,6 +328,7 @@ app.get('/petDashboard/:id', (req, res) => {
 
 // Recieves a file upload, adds it to cloudinary, then adds to the database
 app.post('/photos*', (req, res) => {
+  // The format of the incoming file is a bit weird, has to be encoded to base64
   const newPhoto = req.files['uploads[]'].data.toString('base64');
   const type = req.files['uploads[]'].mimetype;
   const userEmail = req.params[0];
@@ -338,10 +337,12 @@ app.post('/photos*', (req, res) => {
     if (err) {
       res.status(400).send(err);
     } else {
+      // The url in Cloudinary's response is put into the database for use
       Photo.addPhoto(photo.url, userEmail, (error, response) => {
         if (error) {
           res.status(500).send(error);
         } else {
+          // The new photo entry is sent back to the client to be rendered
           res.status(201).send(response);
         }
       });
@@ -357,7 +358,6 @@ app.get('/photos/:email', (req, res) => {
     // Gets activities for that user
     Activity.getUserActivities(userEmail, (error, activities) => {
       if (error) console.error(error);
-
       // Puts them in object and sends to user
       const result = { photos, activities };
       res.status(200).send(result);
@@ -368,7 +368,7 @@ app.get('/photos/:email', (req, res) => {
 // Gets the lat/long location for the map
 app.post('/map', (req, res) => {
   const { location } = req.body;
-  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location},+New+Orleans,+LA&key=${key.token}`)
+  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location},+New+Orleans,+LA&key=${google.token}`)
     .then(response => res.status(200).send(response.data.results[0].geometry.location))
     .catch(err => res.status(500).send(err));
 });

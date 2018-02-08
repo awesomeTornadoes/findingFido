@@ -2,30 +2,26 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './../auth/auth.service';
 import { ChatService } from './../services/chat.service';
 import { Router } from '@angular/router';
+import * as io from "socket.io-client";
 
 
 @Component({
   templateUrl: 'chat.component.html',
   //styleUrls: ['chat.component.css']
 })
-export class ChatComponent { 
-  connection;
+export class ChatComponent {
+  socket = io('http://localhost:9000');
   profile: any;
   room: string = 'Room1';
   message: string;
-  messages: any = [
-    { text: 'Hello my name is Anna' },
-    { text: 'Hello world' },
-    { text: 'Hello you' },
-    { text: 'Hello there' }
-  ]
-  
+  messages: any = []
+
   constructor(
     private router: Router,
     public authService: AuthService,
     private chatService: ChatService
-  ) {}
-  
+  ) { }
+
   ngOnInit() {
     if (this.authService.userProfile) {
       this.profile = this.authService.userProfile;
@@ -34,12 +30,13 @@ export class ChatComponent {
         this.profile = profile;
       });
     }
-    // Polling with no socket.io
-    setTimeout(() => {
-      this.getMessages();
-    }, 2000);
+
+    this.socket.on('new-message', function (data) {
+      this.messages.push(data.message);
+    }.bind(this));
+
   }
-  
+
   sendMessage(message, room): void {
     room = room;
     const chatMessage = {
@@ -49,17 +46,13 @@ export class ChatComponent {
     }
     console.log(chatMessage);
     this.chatService.postMessage(chatMessage)
-      .then(chat => console.log(chat))
-    this.message = '';
-  }  
-
-  getMessages(): void {
-    this.chatService.getMessages(this.profile.email, this.room)
       .then(chat => {
-        this.messages = chat;
-        console.log(chat)
+        this.socket.emit('save-message', chat);
+        console.log(chat);
       })
-  }  
+    .catch(err=>console.log(err))
+    this.message = '';
+  }
 
 }
 

@@ -48,8 +48,6 @@
         </div>
       </div>
     </form>
-  </div>
-  <div class='row'>
     <div *ngIf='activities'>
       <ul *ngFor="let activity of activities">
         <div id='schedule-box' (click)="onSelectActivity(activity)" (mouseenter)="onHover(activity)">
@@ -59,6 +57,8 @@
         </div>
       </ul>
     </div>
+  </div>
+  <div class='row'>
     <div *ngIf='petProfile'>
         <div id='schedule-box'>
           <p>Name: {{petProfile.name}}</p>
@@ -67,6 +67,8 @@
         </div>
     </div>
   </div>
-  <iframe width="500" height="500" frameborder="0" style="border:0" src={{buildGoogleSrc()}} allowfullscreen>
-  </iframe>
+  <div *ngIf="map" id="map">
+    <iframe width="500" height="500" frameborder="0" style="border:0" [src]="sanitize(map)" allowfullscreen>
+    </iframe>
+  </div>
 </div>

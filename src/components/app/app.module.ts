@@ -22,7 +22,7 @@ import { PetDashboardComponent } from './pet-dashboard/pet-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewComponent } from './review/review.component';
 import { PetBooleanComponent } from './pet-boolean/pet-boolean.component';
-import { ChatComponent } from './chat/chat2.component';
+import { ChatComponent } from './chat/chat.component';
 import { PageNotFoundComponent } from './page-not-found'
 import { CallbackComponent } from './callback.component';
 

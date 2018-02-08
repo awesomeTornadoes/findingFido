@@ -12,7 +12,7 @@ import { PersonBooleanComponent } from './person-boolean/person-boolean.componen
 import { PetDashboardComponent } from './pet-dashboard/pet-dashboard.component';
 import { ReviewComponent } from './review/review.component';
 import { PetBooleanComponent } from './pet-boolean/pet-boolean.component';
-import { ChatComponent } from './chat/chat2.component';
+import { ChatComponent } from './chat/chat.component';
 import { PageNotFoundComponent } from './page-not-found';
 import { AuthGuard } from './auth/auth.gard';
 import { ProfileComponent } from './profile/profile.component';

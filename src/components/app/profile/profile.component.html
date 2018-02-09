@@ -27,9 +27,9 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" [routerLink]="['/profile']">Profile</button>
-      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" (click)="authService.logout()">Log Out</button>
+      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+      <button class="btn btn-primary my-2 my-sm-0" type="submit" [routerLink]="['/profile']">Profile</button>
+      <button class="btn btn-danger my-2 my-sm-0" type="submit" (click)="authService.logout()">Log Out</button>
     </form>
   </div>
 </nav>
@@ -62,7 +62,7 @@
         <p>Location: {{activity.location}}</p>
         <p>Time: {{activity.time}}</p>
         <p>Email of the person: {{activity.email_user}}</p>
-        <button class="btn btn-outline-success my-2 my-sm-0" (click)="onTaking()">Take it!</button>
+        <button class="btn btn-success my-2 my-sm-0" (click)="onTaking()">Take it!</button>
 
       </div>
     </ul>
@@ -105,13 +105,13 @@
         </a>
       </div>
       </div>
-      <button class="btn btn-outline-warning my-2 my-sm-0" *ngIf="authService.isAuthenticated" (click)="authService.logout()">
+      <button class="btn btn-warning my-2 my-sm-0" *ngIf="authService.isAuthenticated" (click)="authService.logout()">
         Log Out
       </button>
-      <button class="btn btn-outline-danger my-2 my-sm-0" *ngIf="authService.isAuthenticated" (click)="onDelete()">
+      <button class="btn btn-danger my-2 my-sm-0" *ngIf="authService.isAuthenticated" (click)="onDelete()">
         Delete Profile
       </button>
-      <button class="btn btn-outline-info my-2 my-sm-0" *ngIf="authService.isAuthenticated" (click)="onUpdate()">
+      <button class="btn btn-info my-2 my-sm-0" *ngIf="authService.isAuthenticated" (click)="onUpdate()">
         Update Profile
       </button>
 </div>

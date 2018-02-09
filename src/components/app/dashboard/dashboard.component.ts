@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { PageService } from '../services/page.service';
 const moment = require('moment');
 
+import { SERVER_URI } from '../../../config';
+
 
 @Component({
   templateUrl: 'dashboard.component.html',
@@ -76,7 +78,7 @@ export class DashboardComponent implements OnInit {
       .then(activities => console.log(activities))
   }
   upload() {
-    this.makeFileRequest("http://localhost:9000/photos", [this.profile.name], this.filesToUpload).then((result) => {
+    this.makeFileRequest(`${SERVER_URI}/photos`, [this.profile.name], this.filesToUpload).then((result) => {
       console.log(result);
     }, (error) => {
       console.log(error);

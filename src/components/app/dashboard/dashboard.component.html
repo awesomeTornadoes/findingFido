@@ -26,9 +26,9 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" [routerLink]="['/profile']">Profile</button>
-      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" (click)="authService.logout()">Log Out</button>
+      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+      <button class="btn btn-primary my-2 my-sm-0" type="submit" [routerLink]="['/profile']">Profile</button>
+      <button class="btn btn-danger my-2 my-sm-0" type="submit" (click)="authService.logout()">Log Out</button>
     </form>
   </div>
 </nav>
@@ -40,7 +40,7 @@
       <input type="file" (change)="fileChangeEvent($event)" placeholder="Upload file..." />
       <button type="button" (click)="upload()">Upload</button>
     </div>
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="onPictures()">See Your Pet's Pictures</button>
+    <button class="btn btn-success my-2 my-sm-0" type="submit" (click)="onPictures()">See Your Pet's Pictures</button>
     <div *ngIf='photos'>
       <h3>Your Pet's Pictures</h3>
           <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" *ngIf='photos'>
@@ -80,7 +80,7 @@
         <div style='padding-bottom:10px; color:white' id='request'>
           <h6>Location to have your pet picked up at: {{request.location}}</h6>
           <h6>Time to have your pet picked up at: {{cleanDate(request.time)}}</h6>
-          <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" (click)="onClick()">Don't need someone anymore?</button>
+          <button class="btn btn-danger my-2 my-sm-0" type="submit" (click)="onClick()">Don't need someone anymore?</button>
         </div>
       </ul>
       <h3 *ngIf='activities'>Here are your upcoming commitments!</h3>
@@ -88,16 +88,16 @@
         <div style='padding-bottom:10px; color:white' id='request'>
           <h6>Location to get the pet at: {{activity.location}}</h6>
           <h6>Time to GET the pet at: {{cleanDate(activity.time)}}. Don't be late !</h6>
-          <button class="btn btn-outline-info my-2 my-sm-0" type="submit" (click)="onClick()">Can't make it?</button>
+          <button class="btn btn-info my-2 my-sm-0" type="submit" (click)="onClick()">Can't make it?</button>
         </div>
       </ul>
     </div>
     <div class="row">
       <div>
-        <button type="button" class="btn btn-outline-primary btn-lg" (click)="onSelectFriend()">Find a new friend to play with</button>
+        <button type="button" class="btn btn-primary btn-lg" (click)="onSelectFriend()">Find a new friend to play with</button>
       </div>
       <div>
-        <button type="button" class="btn btn-outline-success btn-lg" (click)="onSelectPet()">Find someone to play with your pet</button>
+        <button type="button" class="btn btn-success btn-lg" (click)="onSelectPet()">Find someone to play with your pet</button>
         <div class="col-md-10 pad" *ngIf="pet">
           <div class="form-group row">
             <label for="example-datetime-local-input">Date and time</label>

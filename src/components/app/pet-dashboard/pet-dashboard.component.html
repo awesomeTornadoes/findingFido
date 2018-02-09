@@ -27,9 +27,9 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" [routerLink]="['/profile']">Profile</button>
-      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" (click)="authService.logout()">Log Out</button>
+      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+      <button class="btn btn-primary my-2 my-sm-0" type="submit" [routerLink]="['/profile']">Profile</button>
+      <button class="btn btn-danger my-2 my-sm-0" type="submit" (click)="authService.logout()">Log Out</button>
     </form>
   </div>
 </nav>
@@ -73,7 +73,7 @@
       <h4>I am a {{pet.kind}}</h4>
       <h4>This is how I rule: {{pet.characteristics}}</h4>
     </div>
-    <button type="submit" class="btn btn-outline-success btn-lg" (click)="onPictures()">See Pictures and More!</button>
+    <button type="submit" class="btn btn-success btn-lg" (click)="onPictures()">See Pictures and More!</button>
     <div class="panel-body" *ngIf='activities'  class='pad'>
       <h3>I am {{pet.name}} and I am available at the following times!</h3>
       <ul *ngFor="let activity of activities">
@@ -81,7 +81,7 @@
           <p>Location: {{activity.location}}</p>
           <p>Time: {{cleanDate(activity.time)}}</p>
           <p>Email of the person: {{activity.email_user}}</p>
-          <button class="btn btn-outline-success my-2 my-sm-0" (click)="onTaking(activity)">Take it!</button>
+          <button class="btn btn-success my-2 my-sm-0" (click)="onTaking(activity)">Take it!</button>
         </div>
       </ul>
     </div>

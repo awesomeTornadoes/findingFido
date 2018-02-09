@@ -1,3 +1,5 @@
+import { SERVER_URI, URI } from '../../../config';
+
 interface AuthConfig {
   CLIENT_ID: string;
   CLIENT_DOMAIN: string;
@@ -7,9 +9,9 @@ interface AuthConfig {
 }
 
 export const AUTH_CONFIG: AuthConfig = {
-  CLIENT_ID: '5a4a6a15c5b9b33d10a53269',
+  CLIENT_ID: 'FkcsFLCal4iwRdteOG4XUAlKOxXl0ojd',
   CLIENT_DOMAIN: 'findo.auth0.com', 
-  AUDIENCE: 'http://localhost:9000',
-  REDIRECT: 'http://localhost:8080/callback',
+  AUDIENCE: SERVER_URI,
+  REDIRECT: `${URI}/callback`,
   SCOPE: 'openid profile email'
 };

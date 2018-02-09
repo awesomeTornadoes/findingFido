@@ -12,13 +12,15 @@ import { AuthHttp } from 'angular2-jwt';
 // We are converting the Observable to a Promise using the toPromise operator thru rxjs.
 import 'rxjs/add/operator/toPromise';
 
+import { SERVER_URI } from '../../../config';
+
 @Injectable()
 export class EmailService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  private profileUrl = 'http://localhost:9000/profile';  
-  private personUrl = 'http://localhost:9000/personSignup';
-  private petUrl = 'http://localhost:9000/petSignup';
+  private profileUrl = `${SERVER_URI}/profile`;  
+  private personUrl = `${SERVER_URI}/personSignup`;
+  private petUrl = `${SERVER_URI}/petSignup`;
 
   constructor(
     private http: Http,

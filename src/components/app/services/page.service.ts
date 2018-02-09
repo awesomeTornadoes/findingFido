@@ -5,23 +5,23 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/toPromise';
-
+import { SERVER_URI } from '../../../config';
 @Injectable()
 export class PageService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private photoHeaders = new Headers({'Accept': 'application/json' });
 
-  private reviewUrl = 'http://localhost:9000/review';  
-  private chatUrl = 'http://localhost:9000/chat'
-  private activitiesUrl = 'http://localhost:9000/activities'
-  private dashboardUrl = 'http://localhost:9000/dashboard'
-  private petDashboardUrl = 'http://localhost:9000/petDashboard'
-  private photosUrl = 'http://localhost:9000/photos'
-  private userProfileUrl = 'http://localhost:9000/userProfile'
-  private personDashboardUrl = 'http://localhost:9000/PersonDashboard'
-  private toDoListUrl = 'http://localhost:9000/todo'
-  private mapUrl = 'http://localhost:9000/map'
+  private reviewUrl = `${SERVER_URI}/review`;  
+  private chatUrl = `${SERVER_URI}/chat`
+  private activitiesUrl = `${SERVER_URI}/activities`
+  private dashboardUrl = `${SERVER_URI}/dashboard`
+  private petDashboardUrl = `${SERVER_URI}/petDashboard`
+  private photosUrl = `${SERVER_URI}/photos`
+  private userProfileUrl = `${SERVER_URI}/userProfile`
+  private personDashboardUrl = `${SERVER_URI}/PersonDashboard`
+  private toDoListUrl = `${SERVER_URI}/todo`
+  private mapUrl = `${SERVER_URI}/map`
 
   constructor(
     private http: Http,

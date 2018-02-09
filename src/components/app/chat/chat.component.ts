@@ -3,6 +3,7 @@ import { AuthService } from './../auth/auth.service';
 import { ChatService } from './../services/chat.service';
 import { Router } from '@angular/router';
 import * as io from "socket.io-client";
+import { SERVER_URI } from '../../../config';
 
 
 @Component({
@@ -10,7 +11,7 @@ import * as io from "socket.io-client";
   //styleUrls: ['chat.component.css']
 })
 export class ChatComponent {
-  socket = io('http://localhost:9000');
+  socket = io(SERVER_URI);
   profile: any;
   room: string = 'Room1';
   message: string;

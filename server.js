@@ -34,6 +34,8 @@ const google = require('./config/googlemaps.api');
 
 const cloud = require('./config/cloudinary.api');
 
+const config = ('./config/');
+
 const app = express();
 
 const http = require('http').Server(app);
@@ -71,7 +73,7 @@ const authCheck = jwt({
     jwksRequestsPerMinute: 5,
     jwksUri: 'https://findo.auth0.com/.well-known/jwks.json',
   }),
-  audience: 'http://localhost:9000',
+  audience: config.url,
   issuer: 'https://findo.auth0.com/',
   algorithms: ['RS256'],
 });

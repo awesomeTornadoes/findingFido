@@ -3,12 +3,13 @@ import { Headers, Http } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 
 import 'rxjs/add/operator/toPromise';
+import { SERVER_URI } from '../../../config';
 
 @Injectable()
 export class ChatService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  private chatUrl = 'http://localhost:9000/chat';
+  private chatUrl = `${SERVER_URI}/chat`;
 
   constructor(
     private http: Http,

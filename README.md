@@ -4,7 +4,7 @@
 >Are you a pet owner who can't always give your animal friend the attention they deserve? 
 >Finding Fido is here to help. We find pet owners and animal lovers in the same area and help them connect to share the love.
 
-<img src="fido.PNG" height="100" width="150">
+<img src="fido.PNG" height="200" width="250">
 
 ## Team
 

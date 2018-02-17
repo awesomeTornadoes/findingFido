@@ -11,6 +11,7 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 10px;
 }
 
 .jumbotron {
@@ -156,4 +157,9 @@ body {
   margin: 10px;
   color: white;
   padding-left: 30px;
+}
+
+#splashpage {
+  border-radius: 50px;
+  background-color: whitesmoke;
 }
